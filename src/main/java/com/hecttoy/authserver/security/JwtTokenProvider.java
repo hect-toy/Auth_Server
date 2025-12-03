@@ -20,10 +20,10 @@ public class JwtTokenProvider {
     @Value("${app.jwtSecret:mySecretKeyForJWTTokenGenerationThatIsAtLeast32CharactersLongForHS256}")
     private String jwtSecret;
 
-    @Value("${app.jwtAccessTokenExpiration:900000}") // 15 minutes in milliseconds
+    @Value("${app.jwtAccessTokenExpiration:900000}")
     private long jwtAccessTokenExpiration;
 
-    @Value("${app.jwtRefreshTokenExpiration:604800000}") // 7 days in milliseconds
+    @Value("${app.jwtRefreshTokenExpiration:604800000}")
     private long jwtRefreshTokenExpiration;
 
     public String generateAccessToken(String username, Map<String, Object> claims) {
