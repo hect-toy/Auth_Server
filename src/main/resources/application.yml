@@ -4,30 +4,38 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 10
+        order_inserts: true
+        order_updates: true
+    show-sql: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth_db
+    url: jdbc:postgresql://localhost:5432/authserver
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-  mvc:
-    throw-exception-if-no-handler-found: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 server:
   port: 8080
   servlet:
     context-path: /api/v1
 
-jwt:
-  secret: mySecretKeyForAuthenticationServerWithMoreThan32CharactersLongForHS256
-  expiration: 3600
-  refresh-expiration: 604800
+app:
+  jwtSecret: mySecretKeyForJWTTokenGenerationThatIsAtLeast32CharactersLong123456
+  jwtAccessTokenExpiration: 900000
+  jwtRefreshTokenExpiration: 604800000
 
 logging:
   level:
     root: INFO
-    com.hecttoy.auth: DEBUG
+    com.hecttoy: DEBUG
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n'
