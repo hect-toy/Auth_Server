@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: auth-server
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+jwt:
+  secret: mySecretKeyForAuthenticationServerWithMoreThan32CharactersLongForHS256
+  expiration: 3600
+  refresh-expiration: 604800
+
+logging:
+  level:
+    root: INFO
+    com.hecttoy.auth: DEBUG
