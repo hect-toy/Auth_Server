@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: auth-server
+  profiles:
+    active: h2
+
+---
+# H2 Profile (Development)
+spring:
+  config:
+    activate:
+      on-profile: h2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  datasource:
+    url: jdbc:h2:mem:authdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+
+---
+# PostgreSQL Profile (Production)
+spring:
+  config:
+    activate:
+      on-profile: postgresql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 10
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authserver
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+---
+# Common Config
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+app:
+  jwtSecret: mySecretKeyForJWTTokenGenerationThatIsAtLeast32CharactersLong123456
+  jwtAccessTokenExpiration: 900000 # 15 minutes in milliseconds
+  jwtRefreshTokenExpiration: 604800000 # 7 days in milliseconds
+
+logging:
+  level:
+    root: INFO
+    com.hecttoy: DEBUG
+  pattern:
+    console: '%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n'
